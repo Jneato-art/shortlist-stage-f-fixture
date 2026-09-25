@@ -8,6 +8,24 @@
 <body>
   <main>
     <p>Fictional staging page for the Shortlist delivery rehearsal. No customer data.</p>
+    <p>Optional test analytics records a page view only after you choose to enable it. This fixture contains no forms or customer information.</p>
+    <button id="analytics-opt-in" type="button">Enable analytics for this test visit</button>
+    <p id="analytics-status" role="status"></p>
   </main>
+  <script>
+    document.getElementById('analytics-opt-in').addEventListener('click', function () {
+      if (window.shortlistAnalyticsEnabled) return;
+      window.shortlistAnalyticsEnabled = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-KHLG0108WH', { send_page_view: true });
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KHLG0108WH';
+      document.head.appendChild(script);
+      document.getElementById('analytics-status').textContent = 'Analytics enabled for this test visit.';
+    });
+  </script>
 </body>
 </html>
